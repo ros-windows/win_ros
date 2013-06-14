@@ -50,6 +50,7 @@ def parse_args():
     parser.add_argument('-p', '--pre-clean', action='store_true', help='clean the build directory (not config.cmake) before recompiling [false]')
     group = parser.add_mutually_exclusive_group()
     group.add_argument('-c', '--cmake-only', action='store_true', help='do not compile, cmake configuration only [false]')
+    group.add_argument('-i', '--install', action='store_true', help='build and install sdk [false]')
 #    parser.add_argument('path', type=str, default=".",
 #                   help='base path for the workspace')
     return parser.parse_args()
@@ -84,9 +85,14 @@ if __name__ == "__main__":
     if os.path.isfile(os.path.join(build_path, 'Makefile')):
         if args.cmake_only:
             win_ros.execute_cmake(src_path, build_path)
+        elif args.install:
+            win_ros.execute_nmake_install(build_path)
         else:
             win_ros.execute_nmake(build_path)
     else:
         win_ros.execute_cmake(src_path, build_path)
         if not args.cmake_only:
-            win_ros.execute_nmake(build_path)
+            if args.install:
+                win_ros.execute_nmake_install(build_path)
+            else:
+                win_ros.execute_nmake(build_path)
