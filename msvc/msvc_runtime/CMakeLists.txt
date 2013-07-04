@@ -23,10 +23,9 @@ endmacro()
 
 set(USE_BATCH_HELPERS FALSE)
 
-# rosrun is a batch file, not a python file
 set(NAMES rosbag roscore rosgraph roslaunch rosmaster rosnode 
           rosparam rosservice rosmsg rossrv rostopic rosunit
-          roswtf)
+          roswtf rosrun)
 
 if(${USE_BATCH_HELPERS})
   foreach(name ${NAMES})

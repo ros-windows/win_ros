@@ -1,0 +1,21 @@
+<package>
+  <name>rosrun</name>
+  <version>1.0.0</version>
+  <description>
+    rosrun allows you to run an executable 
+    in an arbitrary package from anywhere 
+    without having to give its full path 
+    or cd/roscd there first.
+  </description>
+  <maintainer email="yichoe@yujinrobot.com">Yeong-il Choe</maintainer>
+  <license>BSD</license>
+
+  <url>http://ros.org/wiki/rosrun</url>
+  <author>Felix Kolbe</author>
+ 
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    <rosdoc config="rosdoc.yaml"/>
+  </export>
+</package>

@@ -7,6 +7,7 @@ catkin_stack()
 foreach(subdir
     msvc/msvc_runtime
     msvc/msvc_sdk
+    msvc/rosrun
     tutorials/win_roscpp_tutorials
     )
   add_subdirectory(${subdir})

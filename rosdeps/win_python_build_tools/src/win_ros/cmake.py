@@ -38,6 +38,8 @@ import sys
 import os
 import subprocess
 import shutil
+import cmake_var
+import glob
 
 ##############################################################################
 # Public Functions
@@ -56,7 +58,7 @@ def execute_cmake(src_path, build_path):
     os.chdir(build_path) 
     proc = subprocess.Popen(cmake_command, shell=True)
     proc.wait()
-    
+
 def execute_nmake(build_path):
     if not os.path.isdir(build_path):
         execute_cmake(src_path, build_path)
@@ -67,8 +69,35 @@ def execute_nmake(build_path):
     proc = subprocess.Popen('nmake', shell=True)
     proc.wait()
 
+def execute_nmake_install(build_path):
+    if not os.path.isdir(build_path):
+        execute_cmake(src_path, build_path)
+    if not os.path.isfile(os.path.join(build_path, 'CMakeCache.txt')):
+        execute_cmake(src_path, build_path)
+    os.chdir(build_path) 
+    print("\nExecuting nmake in the root build directory and install\n")
+    proc = subprocess.Popen('nmake install', shell=True)
+    proc.wait()
+    copy_debuginfo(build_path)
+    
 def override_filename():
     return os.path.join(os.path.dirname(__file__), 'cmake', 'MsvcOverrides.cmake')
 
 def parent_directory(path):
     return os.path.abspath(os.path.join(path, os.pardir))
+
+def copy_debuginfo(build_path):
+    ws_path = os.path.join(parent_directory(build_path))
+    pdb_path = os.path.join(ws_path, 'devel', 'bin', '*.pdb')
+    install_root = cmake_var.get_value(os.path.join(ws_path, 'config.cmake'), 'INSTALL_ROOT')
+    install_path = os.path.join(install_root, 'bin')
+    pdb_files = glob.glob(pdb_path)
+    print("\nInstall the debug info files...")
+    for i in pdb_files:
+        dst_name = os.path.join(install_path, os.path.basename(i))
+        if os.path.isfile(dst_name) == True:
+            print("-- Up-to-date: " + dst_name)
+        else:
+            print("-- Installing: " + dst_name)
+        shutil.copy(i, dst_name)
+    
