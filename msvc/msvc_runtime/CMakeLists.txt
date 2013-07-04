@@ -25,7 +25,7 @@ set(USE_BATCH_HELPERS FALSE)
 
 set(NAMES rosbag roscore rosgraph roslaunch rosmaster rosnode 
           rosparam rosservice rosmsg rossrv rostopic rosunit
-          roswtf rosrun)
+          roswtf rosrun winros_create_pkg winros_create_msg_pkg)
 
 if(${USE_BATCH_HELPERS})
   foreach(name ${NAMES})

@@ -77,8 +77,9 @@ def execute_nmake_install(build_path):
     os.chdir(build_path) 
     print("\nExecuting nmake in the root build directory and install\n")
     proc = subprocess.Popen('nmake install', shell=True)
-    proc.wait()
-    copy_debuginfo(build_path)
+    returncode = proc.wait()
+    if returncode == 0:
+        copy_debuginfo(build_path)
     
 def override_filename():
     return os.path.join(os.path.dirname(__file__), 'cmake', 'MsvcOverrides.cmake')
@@ -92,7 +93,7 @@ def copy_debuginfo(build_path):
     install_root = cmake_var.get_value(os.path.join(ws_path, 'config.cmake'), 'INSTALL_ROOT')
     install_path = os.path.join(install_root, 'bin')
     pdb_files = glob.glob(pdb_path)
-    print("\nInstall the debug info files...")
+    print("Install the debug info files...")
     for i in pdb_files:
         dst_name = os.path.join(install_path, os.path.basename(i))
         if os.path.isfile(dst_name) == True:

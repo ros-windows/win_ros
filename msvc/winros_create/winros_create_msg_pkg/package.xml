@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package>
+  <name>winros_create_msg_pkg</name>
+  <version>0.1.0</version>
+  <description>
+     Provides templates and scripts for creating win-ros message package.
+  </description>
+  <maintainer email="yichhoe@yujinrobot.com">Yeong-il Choe</maintainer>
+  <license>BSD</license>
+
+  <url type="repository">https://github.com/ros-windows/win_ros</url>
+
+  <author>Daniel Stonier</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+</package>
